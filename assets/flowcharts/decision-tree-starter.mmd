@@ -1,0 +1,17 @@
+%% Decision Tree Starter Template (DMN-style)
+%% Use for L1.5 Decision Points where you have nested conditions
+%% Replace D1/D2 with actual decision IDs
+
+flowchart TB
+    Start([Decision input]) --> D1{D1<br/>First condition?}
+    D1 -->|Branch A| BranchA[Branch A outcome]
+    D1 -->|Branch B| D2{D2<br/>Second condition?}
+    D2 -->|Sub-branch 1| Outcome1[Outcome 1]
+    D2 -->|Sub-branch 2| Outcome2[Outcome 2]
+    D2 -->|Default| OutcomeDefault[Default outcome]
+
+    classDef decision fill:#ffe,stroke:#cb0,stroke-width:2px
+    class D1,D2 decision
+
+    %% Tip: For complex multi-variable decisions, use a decision_table
+    %% in process-brief.md L1.5 instead of nested if/elif

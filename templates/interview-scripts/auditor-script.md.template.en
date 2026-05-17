@@ -1,0 +1,60 @@
+# Auditor Interview Script — {{PROCESS_NAME}}
+
+> **Respondent**: Auditor / QA / Compliance ({{AUDITOR_NAME}})
+> **Duration**: 15-20 minutes
+> **Goal**: Capture red lines, compliance mappings, violation history, monitoring metrics
+
+---
+
+## Part 1: Red Lines & Rules (5 min)
+
+1. What are the absolute no-gos in this process? (things that WILL trigger a violation)
+2. For each red line: which specific step(s) does it apply to?
+3. What's the consequence of each violation? (warning, fine, process redesign?)
+4. Are there "soft" rules that are strongly recommended but not enforced?
+
+→ Maps to: `invariants` (enforcement: hard/soft), `steps[].related_invariant`
+
+---
+
+## Part 2: Evidence & Audit Trail (4 min)
+
+5. At which points in the process should there be an audit trail?
+6. What specific artifacts serve as evidence? (ticket logs, call recordings, approval emails?)
+7. How do you currently verify compliance? (manual review, automated checks, sampling?)
+8. What percentage of cases do you audit? (100% for P0, random sampling for others?)
+
+→ Maps to: L4 artifacts (evidence checkpoints), `implies_metric`
+
+---
+
+## Part 3: Violation History (4 min)
+
+9. What are the most common violations you see?
+10. Are there any patterns? (specific steps, specific roles, specific times?)
+11. Can you share a recent case that illustrates a typical violation?
+12. What changed as a result of that case?
+
+→ Maps to: L6 cases-library
+
+---
+
+## Part 4: Monitoring & Metrics (3 min)
+
+13. What metrics do you track to monitor process health?
+14. Are there thresholds that trigger escalation?
+15. What data sources do these metrics come from?
+
+→ Maps to: `metrics` (threshold type, monitoring_frequency)
+
+---
+
+## Part 5: Gaps & Risks (3 min)
+
+16. Where do you think the process is most vulnerable?
+17. Are there steps where evidence is weak or missing?
+18. What would you want documented that currently isn't?
+
+---
+
+**Post-Interview**: Thank the auditor. Cross-reference their red lines with the invariants captured from the Owner — if there's a gap, flag it as `[CONFLICT — Owner didn't mention this red line]`.

@@ -1,0 +1,91 @@
+---
+name: process-{{PROCESS_NAME}}
+description: {{PROCESS_PURPOSE_ONE_LINER}} 的标准化流程 Skill。覆盖端到端执行、培训、审计与持续改进。
+generated_by_meta_skill_version: {{META_SKILL_VERSION}}
+---
+
+# {{PROCESS_NAME}}
+
+## 概述
+
+{{PURPOSE_ONE_LINER}}
+
+- **流程负责人**：{{PROCESS_OWNER_PRIMARY}}
+{% if PROCESS_SPONSOR != PROCESS_OWNER_PRIMARY %}
+- **流程发起人**：{{PROCESS_SPONSOR}}
+{% endif %}
+- **版本**：{{PROCESS_VERSION}}
+- **生效日期**：{{VERSION_VALID_FROM}}
+{% if VERSION_VALID_UNTIL %}
+- **失效日期**：{{VERSION_VALID_UNTIL}}
+{% endif %}
+- **生命周期阶段**：{{LIFECYCLE_PHASE}}
+{% if TRIAL_UNTIL %}
+- **试运行截止**：{{TRIAL_UNTIL}}
+{% endif %}
+- **触发条件**：{{TRIGGER_SUMMARY}}
+- **产出物**：{{OUTPUTS_SUMMARY}}
+- **默认产物**：{{DEFAULT_RECIPE}}
+
+## 不可变约束
+
+以下约束无论由谁执行本流程都必须遵守：
+
+{% for inv in INVARIANTS %}
+- **{{inv.id}}** [{{inv.enforcement}}]：{{inv.rule}}
+{% endfor %}
+
+## 速查表
+
+| 角色 | 核心关注 | 推荐产物 |
+|---|---|---|
+{% for role in INVOLVED_ROLES %}
+| {{role.name}} | {{role.persona}} | {{role.primary_recipe}} |
+{% endfor %}
+
+## 如何使用本 Skill
+
+1. **第一次用？** 从 {{DEFAULT_RECIPE}} 开始。
+2. **需要执行？** 按 {{DEFAULT_RECIPE}} 的步骤逐步操作。
+3. **在培训新人？** 使用培训模块（Training Module）。
+4. **在审计？** 从合规备忘（Compliance Memo）+ RACIO 矩阵开始。
+5. **想理解为什么？** 阅读 `references/foundational-logic.md`。
+
+## 参考文档
+
+| 文件 | 内容 | 何时阅读 |
+|---|---|---|
+| `references/process-brief.md` | 完整流程定义（步骤、角色、决策、SLA、边界） | 理解完整流程 |
+| `references/foundational-logic.md` | 目的、权衡、设计原则、方法论来源 | 理解 WHY |
+| `references/output-recipes.md` | 所有生成的产物格式（SOP、Runbook、RACIO 等） | 生成特定产出 |
+| `references/artifacts-registry.md` | 本流程使用的表单、模板、检查清单 | 查找具体物件 |
+| `references/visualization-spec.md` | 流程图绘制约定（Mermaid） | 渲染或修改流程图 |
+| `references/cases-library.md` | 真实案例、事件、经验教训 | 从经验中学习 |
+
+## 版本历史
+
+详见 `CHANGELOG.md`。当前版本：{{PROCESS_VERSION}}。
+
+{% if HAS_TTL_FIELDS %}
+**TTL 提示**：标记为 `@valid_until=YYYY-Q#` 的字段可能过期。请每季度运行 `process-architect ttl-check --skill ./` 检查。过期字段列表见 `references/process-brief.md` 中的 TTL 注释。
+{% endif %}
+
+## 生命周期维护
+
+本 Skill 包含 TTL 标记（`@valid_until=YYYY-Q#`），标注在以下易变字段上：
+- SLA 数字（L1.8）
+- 工具/系统 URL（L1.4、L1.3）
+- 角色联系人（L1.3）
+- 量级估算（L1.8）
+
+维护命令：
+```bash
+# 季度 TTL 检查
+process-architect ttl-check --skill ./
+
+# 版本升级
+process-architect bump --skill ./ --type minor "描述变更内容"
+
+# 变更前影响评估
+process-architect diff-plan --skill ./ --since {{PREV_VERSION}}
+```

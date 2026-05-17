@@ -1,0 +1,71 @@
+# Operator Interview Script — {{PROCESS_NAME}}
+
+> **Respondent**: Operator ({{OPERATOR_NAME}})
+> **Duration**: 15-20 minutes
+> **Goal**: Capture actual step sequence, decision conditions, handoffs, real durations, shadow steps
+
+---
+
+## Part 1: Step Sequence — Walk Me Through It (5 min)
+
+1. Walk me through this process from start to finish, as if I'm shadowing you.
+2. What's the VERY FIRST thing you do when this process triggers?
+3. What happens next? And after that? (let them drive the sequence, don't lead)
+
+→ Maps to: `steps` (sequence, name, actions)
+
+---
+
+## Part 2: Per-Step Detail (5 min)
+
+For each step they mentioned, ask:
+
+4. Who actually does this step? (may differ from official role assignment)
+5. What information do you need BEFORE you can do this step?
+6. What do you produce AFTER completing this step?
+7. How long does this step ACTUALLY take? (not the official SLA — the real duration)
+8. What system/tool do you use? (exact: "Salesforce refund module", not "the system")
+
+→ Maps to: `steps[].executor_role`, `inputs`, `outputs`, `duration`
+
+---
+
+## Part 3: Decisions & Judgments (3 min)
+
+9. Are there any points where you have to make a judgment call?
+10. What information do you use to decide? (concrete criteria, not "I just know")
+11. What happens if you're wrong? Is there a safety net?
+
+→ Maps to: `decisions` (condition, condition_quality)
+
+---
+
+## Part 4: Exceptions & Shortcuts (3 min)
+
+12. What are the most common things that go wrong?
+13. When something goes wrong, what do you ACTUALLY do? (not what the SOP says)
+14. Are there any unofficial shortcuts? ("We usually just message the TL directly instead of filing a ticket")
+15. What do you do when you can't reach someone you need to hand off to?
+
+→ Maps to: `.E` / `.A` exception paths, shadow steps, `handoff_event`
+
+---
+
+## Part 5: Handoffs & Coordination (2 min)
+
+16. When do you hand work to another person/team?
+17. How do you hand it off? (ticket, Slack, meeting, system event?)
+18. How long does the other side usually take to pick it up?
+
+→ Maps to: `handoff_event` (mechanism, sla)
+
+---
+
+## Part 6: Improvement Ideas (2 min)
+
+19. What's the most annoying/frustrating part of this process?
+20. If you had a magic wand, what would you change?
+
+---
+
+**Post-Interview**: Thank the operator. Note any shadow steps or shortcuts they mentioned — these are gold for Trace Mode (Phase 3).

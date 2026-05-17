@@ -1,0 +1,37 @@
+%% Swimlane Starter Template
+%% Replace ROLE_A / ROLE_B / ROLE_C with your roles
+%% Replace SX with actual step IDs from your process-brief.md
+%% Use solid arrows for happy path; dashed for exceptions (.E)
+
+flowchart TB
+    subgraph ROLE_A[Role A — e.g., Operator]
+        S1[S1 - Trigger step]
+        S2[S2 - Action]
+        S2_E[S2.E - Exception path]:::exception
+    end
+
+    subgraph ROLE_B[Role B — e.g., Approver]
+        S3[S3 - Review]
+        D1{D1 - Approve?}
+        S4[S4 - Approve action]
+    end
+
+    subgraph ROLE_C[Role C — e.g., Executor]
+        S5[S5 - Execute]
+        S6[S6 - Confirm]
+        S7([End])
+    end
+
+    S1 --> S2
+    S2 --> S3
+    S2 -.->|exception| S2_E
+    S3 --> D1
+    D1 -->|Yes| S4
+    D1 -->|No| S2_E
+    S4 --> S5
+    S5 --> S6
+    S6 --> S7
+
+    classDef exception fill:#fdd,stroke:#c44,stroke-width:2px
+    classDef decision fill:#ffe,stroke:#cb0,stroke-width:2px
+    class D1 decision

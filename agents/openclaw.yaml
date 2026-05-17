@@ -1,0 +1,18 @@
+# OpenClaw Agent Configuration
+interface:
+  display_name: "process-architect"
+  short_description: "Generate standardized process Skills from raw materials (SOPs, flowcharts, interviews)."
+  skill_format: "OpenClaw Skill (tar.gz with SKILL.md entry)"
+  
+  # OpenClaw reads SKILL.md frontmatter for name/description
+  # References are loaded on-demand for context injection
+  # Package via: process-architect package --format openclaw --skill ./
+  
+  progressive_loading:
+    - L0: SKILL.md (always loaded)
+    - L1: references/process-brief.md (on process execution)
+    - L2: references/foundational-logic.md (on design review)
+    - L3: references/output-recipes.md (on recipe generation)
+
+  cli_tool: "cli/meta-skill-process-architect.py"
+  import_command: "skills install process-{name}.tar.gz"

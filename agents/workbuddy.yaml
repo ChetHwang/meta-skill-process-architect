@@ -1,0 +1,18 @@
+# WorkBuddy Agent Configuration
+interface:
+  display_name: "流程架构师"
+  short_description: "将原始流程资料转化为结构化、多角色流程 Skill。"
+  entry_skill: "SKILL.md"
+  
+  # WorkBuddy reads SKILL.md frontmatter + references/ for context injection
+  # Package via: process-architect package --format workbuddy --skill ./
+  
+  supported_features:
+    - 4 种输入模式（自带材料 / 访谈 / 自动扫描 / 缺口问卷）
+    - 14 种产出配方，覆盖 7 种标准角色
+    - 跨流程网络（Cross-Process Network）
+    - 生命周期管理（版本 bump / TTL 检查 / diff-plan）
+    - 轨迹分析（Trace Mode — 文档 vs 现实 drift）
+
+  cli_tool: "cli/meta-skill-process-architect.py"
+  import_format: "tar.gz (Skills → Import)"

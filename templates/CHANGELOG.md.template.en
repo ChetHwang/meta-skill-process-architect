@@ -1,0 +1,29 @@
+# Changelog — {{PROCESS_NAME}}
+
+All notable changes to this process follow [Semantic Versioning](https://semver.org/).
+
+## Versioning Rules
+
+| Bump | When |
+|---|---|
+| MAJOR | Process fundamentally redesigned; scope boundary shift; purpose change; compliance framework change |
+| MINOR | Steps added/removed; roles added/removed; artifacts added/removed; new recipe |
+| PATCH | Step wording polish; TTL field refresh; new cases; typo fixes |
+
+---
+
+## [1.0.0] — {{VERSION_VALID_FROM}} ({{LIFECYCLE_PHASE}}{% if TRIAL_UNTIL %}, trial until {{TRIAL_UNTIL}}{% endif %})
+
+### Generated
+- L0-L6 complete process documentation
+- 6 output recipes (SOP, Runbook, RACIO, FAQ, Process Map, Exception Playbook)
+- Anti-pattern scan: {{ANTI_PATTERN_RESULT}}
+
+### Source Materials
+{{SOURCE_MATERIALS_SUMMARY}}
+
+### Known Gaps
+{{KNOWN_GAPS}}
+
+### TTL Fields
+{{TTL_FIELDS_LIST}}

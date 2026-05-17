@@ -1,0 +1,56 @@
+# Operator Survey — {{PROCESS_NAME}}
+
+> **Your answers will be used directly to generate the process Skill document.**
+> Please be as specific as possible — concrete numbers, exact tool names, real scenarios.
+
+---
+
+## 1. Step Sequence
+Walk through the process from start to finish. List each step in order.
+*Example: "Step 1: Receive refund request via phone/WeChat. Step 2: Open CRM and verify eligibility..."*
+
+[Your answer]
+
+## 2. Per-Step Details
+For the main steps: Who does each step? What tool? How long does it actually take?
+*Example: "S3 (Process refund): Done by team lead in Stripe dashboard, takes 5 min if no issues, 30 min if payment gateway down"*
+
+[Your answer]
+
+## 3. Decision Points
+Are there places where you have to make a judgment call? What criteria do you use?
+*Example: "Decision: Full refund or partial? → Check purchase date ≤ 7 days AND progress < 25%"*
+
+[Your answer]
+
+## 4. Common Exceptions
+What usually goes wrong? What do you ACTUALLY do when it does?
+*Example: "Stripe timeout → Wait 60s, retry once. If still fails → Slack #refund-ops"*
+
+[Your answer]
+
+## 5. Handoffs
+When do you pass work to someone else? How? How long do they take?
+*Example: "After calculating refund amount → Jira ticket to Finance, they respond within 2h"*
+
+[Your answer]
+
+## 6. Shadow Steps
+Are there any unofficial shortcuts you use that aren't in the official documentation?
+*Example: "We usually DM the TL directly instead of filing the escalation ticket"*
+
+[Your answer]
+
+## 7. Most Annoying Part
+What's the most frustrating part of this process?
+
+[Your answer]
+
+## 8. Magic Wand
+If you could change ONE thing, what would it be?
+
+[Your answer]
+
+---
+
+**Submit by**: [date] | **Contact**: [name]

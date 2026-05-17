@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+._*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS
+Thumbs.db
+
+# Generated output during local testing
+process-*/
+!templates/process-*/
+
+# Manifests created by CLI during runs
+manifest.json
+
+# Internal-only examples — never publish
+../_private-examples/

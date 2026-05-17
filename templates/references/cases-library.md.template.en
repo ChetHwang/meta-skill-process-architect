@@ -1,0 +1,89 @@
+# Cases & Learning Library — {{PROCESS_NAME}}
+
+> **L6 — Cases & Learning Library**: Real cases, incidents, and lessons learned.
+> Each case must reference: specific step IDs and invariant IDs it relates to.
+
+---
+
+## Case Index
+
+| ID | Date | Type | Summary | Related Steps | Related Invariants |
+|---|---|---|---|---|---|
+{% for case in CASES %}
+| {{case.id}} | {{case.date}} | {{case.type}} | {{case.summary}} | {{case.related_steps | join(', ')}} | {{case.related_invariants | join(', ')}} |
+{% endfor %}
+
+---
+
+## Detailed Cases
+
+{% for case in CASES %}
+
+### {{case.id}} — {{case.summary}}
+
+- **Type**: {{case.type}} (success / failure / edge / incident)
+- **Date**: {{case.date}}
+- **Severity**: {{case.severity or 'N/A'}}
+
+**Timeline**:
+{{case.timeline}}
+
+**Root Cause**:
+{{case.root_cause}}
+
+**Lesson Learned**:
+{{case.lesson}}
+
+**How to Avoid**:
+{{case.how_to_avoid}}
+
+**Process Impact**:
+- Related Steps: {{case.related_steps | join(', ')}}
+- Related Invariants: {{case.related_invariants | join(', ')}}
+{% if case.changelog_ref %}
+- Changelog: {{case.changelog_ref}}
+{% endif %}
+
+{% endfor %}
+
+---
+
+## Case Statistics
+
+| Type | Count |
+|---|---|
+| Success | {{STATS.success}} |
+| Failure | {{STATS.failure}} |
+| Edge | {{STATS.edge}} |
+| Incident | {{STATS.incident}} |
+
+---
+
+## Search Guide
+
+To find relevant cases quickly:
+```bash
+rg '@type:incident' cases/          # All incidents
+rg '@type:failure' cases/           # All failures
+rg '@step:S3' cases/                # Cases involving Step S3
+rg '@invariant:AP01' cases/         # Cases involving AP01
+```
+
+---
+
+## Case Template (for new entries)
+
+```yaml
+- id: {{CASE_DATE}}-{{CASE_SLUG}}
+  type: success | failure | edge | incident
+  date: {{CASE_DATE}}
+  summary: <one-line summary>
+  timeline: |
+    - HH:MM — event 1
+    - HH:MM — event 2
+  root_cause: <5 Whys or similar>
+  lesson: <what we learned>
+  how_to_avoid: <concrete prevention>
+  related_steps: [S1, S2]
+  related_invariants: [AP01]
+```

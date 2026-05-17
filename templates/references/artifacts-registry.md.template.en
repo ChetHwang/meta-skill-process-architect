@@ -1,0 +1,62 @@
+# Artifacts Registry — {{PROCESS_NAME}}
+
+> **L4 — Process Artifacts**: Tangible objects consumed or produced by this process.
+> Every artifact must reference: which step uses/produces it, which role owns it, where it lives, when it expires.
+> **TTL Note**: Storage locations (URLs/paths) and owners are volatile. Mark with `@valid_until=YYYY-Q#` during generation.
+
+---
+
+## Artifact Index
+
+| ID | Name | Type | Used In Step | Produced In Step | Owner | Storage | Expires |
+|---|---|---|---|---|---|---|---|
+{% for a in ARTIFACTS %}
+| {{a.id}} | {{a.name}} | {{a.type}} | {{a.used_in_step}} | {{a.produced_in_step}} | {{a.owner_role}} | {{a.storage_location}} | {{a.expires or '—'}} |
+{% endfor %}
+
+---
+
+## Detailed Entries
+
+{% for a in ARTIFACTS %}
+### {{a.id}} — {{a.name}}
+
+- **Type**: {{a.type}} (form / checklist / template / ticket_template / data_schema / report)
+- **Purpose**: {{a.purpose}}
+- **Used In**: Step {{a.used_in_step}} — consumed by {{a.owner_role}} during execution
+- **Produced In**: Step {{a.produced_in_step}} — created/completed by {{a.producer_role}}
+- **Storage**: {{a.storage_location}}
+- **Expires**: {{a.expires or 'No expiration — retained for audit'}}
+- **Implies Metric**: {{a.implies_metric}} {% if a.implies_metric %} → auto-creates placeholder metric in L1.8: "{{a.implied_metric_name}}"{% endif %}
+
+{% if a.template_content %}
+**Template**:
+```yaml
+{{a.template_content}}
+```
+{% endif %}
+
+{% endfor %}
+
+---
+
+## Artifact ↔ Step Cross-Reference
+
+| Step ID | Consumes | Produces |
+|---|---|---|
+{% for step in STEP_ARTIFACT_MAP %}
+| {{step.id}} | {{step.consumes | join(', ') or '—'}} | {{step.produces | join(', ') or '—'}} |
+{% endfor %}
+
+---
+
+## Missing Artifacts
+
+{% if MISSING_ARTIFACTS %}
+The following steps lack artifact documentation:
+{% for gap in MISSING_ARTIFACTS %}
+- Step {{gap.step_id}}: {{gap.reason}}
+{% endfor %}
+{% else %}
+All steps have at least one artifact documented.
+{% endif %}

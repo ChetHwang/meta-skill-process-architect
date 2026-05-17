@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "prompt": "帮我生成一个客户退款流程的 skill。我们有 SOP 文档，退款流程涉及 Customer Success、Finance、Operations 三个角色。触发条件是客户提交退款申请表单。",
+    "expected": "Agent 应遵循 Step 0→0.5→1→2→3 流程：确认语言/类型/skill名称 → 估算输入大小 → 加载 archetype+role-model → 提取L0+L1 → 在Step 3展示gaps/inferences表格等用户确认。不应跳过任何checkpoint或自行假设缺失信息。"
+  },
+  {
+    "id": 2,
+    "prompt": "这是一个工作流转的流程图 [上传了一张手绘流程图图片]，帮我文档化成 process skill。只有流程图，没有其他材料。",
+    "expected": "Agent 应检测到 sparse input（缺少 ≥3 个 Required 项），触发 sparse threshold 警告，建议使用 Interview Mode 或 Gap Survey。不应在材料严重不足的情况下强行生成，应在 Step 3 明确列出所有 GAP 项并等待用户补充。"
+  },
+  {
+    "id": 3,
+    "prompt": "我们公司有个流程叫'用户状态恢复'，涉及 Account Manager 和 Operations。Account Manager 在系统里标记状态，到期后 Operations 手动恢复。帮我生成完整的 process skill。",
+    "expected": "Agent 应正确提取触发事件（标记状态到期）、角色（Account Manager + Operations）、步骤序列，并在 L1.4 中标记 C6 内部交接（AM→Ops 的 handoff），生成 cycle time 分析，添加 L1.4 末尾的 S{N}.X 通用兜底步骤。输出应包含完整的 L0-L6 结构和至少 3 个 recipes。"
+  },
+  {
+    "id": 4,
+    "prompt": "我们有一个退款流程 skill（v1.0.0 1-3月执行，v1.1.0 4月起生效、4月是试运行期、5月正式执行）。现在5月核查发现3月有一笔退款处理错了。请问：这个错误应该用哪个版本的标准来判定？为什么？",
+    "expected": "Agent 应：1) 识别这是一个 temporal validity 查询场景；2) 正确判定 3月事件应使用 v1.0.0 标准（valid_from=1月，valid_until=3月底，phase=active），而非 v1.1.0；3) 说明即使 v1.1.0 4月试运行，也不影响对 3月历史事件的判定；4) 引用 lifecycle phase 概念（trial vs active vs superseded）解释判定逻辑。核心能力：版本时间窗口查询 + 审计级别区分。"
+  }
+]

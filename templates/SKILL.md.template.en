@@ -1,0 +1,91 @@
+---
+name: process-{{PROCESS_NAME}}
+description: Standardized process Skill for {{PROCESS_PURPOSE_ONE_LINER}}. Covers end-to-end execution, training, auditing, and improvement.
+generated_by_meta_skill_version: {{META_SKILL_VERSION}}
+---
+
+# {{PROCESS_NAME}}
+
+## Overview
+
+{{PURPOSE_ONE_LINER}}
+
+- **Process Owner**: {{PROCESS_OWNER_PRIMARY}}
+{% if PROCESS_SPONSOR != PROCESS_OWNER_PRIMARY %}
+- **Process Sponsor**: {{PROCESS_SPONSOR}}
+{% endif %}
+- **Version**: {{PROCESS_VERSION}}
+- **Effective Date**: {{VERSION_VALID_FROM}}
+{% if VERSION_VALID_UNTIL %}
+- **Superseded Date**: {{VERSION_VALID_UNTIL}}
+{% endif %}
+- **Lifecycle Phase**: {{LIFECYCLE_PHASE}}
+{% if TRIAL_UNTIL %}
+- **Trial Until**: {{TRIAL_UNTIL}}
+{% endif %}
+- **Trigger**: {{TRIGGER_SUMMARY}}
+- **Outputs**: {{OUTPUTS_SUMMARY}}
+- **Default Recipe**: {{DEFAULT_RECIPE}}
+
+## Invariants
+
+These constraints MUST hold regardless of who executes this process:
+
+{% for inv in INVARIANTS %}
+- **{{inv.id}}** [{{inv.enforcement}}]: {{inv.rule}}
+{% endfor %}
+
+## Quick Reference
+
+| Role | Primary Concern | Go-To Recipe |
+|---|---|---|
+{% for role in INVOLVED_ROLES %}
+| {{role.name}} | {{role.persona}} | {{role.primary_recipe}} |
+{% endfor %}
+
+## How to Use This Skill
+
+1. **First time?** Start with the {{DEFAULT_RECIPE}}.
+2. **Need to execute?** Follow the {{DEFAULT_RECIPE}} step by step.
+3. **Training someone?** Use the Training Module recipe.
+4. **Auditing?** Start with Compliance Memo + RACIO Matrix.
+5. **Want to understand why?** Read `references/foundational-logic.md`.
+
+## References
+
+| File | Content | When to Read |
+|---|---|---|
+| `references/process-brief.md` | Complete process definition (steps, roles, decisions, SLA, scope) | Understand the full process |
+| `references/foundational-logic.md` | Purpose, tradeoffs, design principles, source methodology | Understand WHY |
+| `references/output-recipes.md` | All generated output formats (SOP, Runbook, RACIO, etc.) | Generate specific outputs |
+| `references/artifacts-registry.md` | Forms, templates, checklists used in this process | Find a specific artifact |
+| `references/visualization-spec.md` | Diagram conventions (Mermaid) | Render or modify process maps |
+| `references/cases-library.md` | Real cases, incidents, lessons learned | Learn from experience |
+
+## Version History
+
+See `CHANGELOG.md` for full history. Current version: {{PROCESS_VERSION}}.
+
+{% if HAS_TTL_FIELDS %}
+**TTL Note**: Fields marked with `@valid_until=YYYY-Q#` may expire. Run `process-architect ttl-check --skill ./` quarterly. Expired fields are listed in `references/process-brief.md` TTL comments.
+{% endif %}
+
+## Lifecycle Maintenance
+
+This Skill contains TTL markers (`@valid_until=YYYY-Q#`) on volatile fields:
+- SLA numbers (L1.8)
+- Tool/system URLs (L1.4, L1.3)
+- Role contacts (L1.3)
+- Volume estimates (L1.8)
+
+Maintenance commands:
+```bash
+# Quarterly TTL check
+process-architect ttl-check --skill ./
+
+# Version bump
+process-architect bump --skill ./ --type minor "Describe the change"
+
+# Impact assessment before changes
+process-architect diff-plan --skill ./ --since {{PREV_VERSION}}
+```
