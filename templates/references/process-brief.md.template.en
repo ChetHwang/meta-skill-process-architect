@@ -1,0 +1,200 @@
+# Process Brief — {{PROCESS_NAME}}
+
+> **Status**: {{STATUS}} | **Version**: {{PROCESS_VERSION}} | **Owner**: {{PROCESS_OWNER_PRIMARY}}
+> **Last Updated**: {{LAST_UPDATED}}
+
+---
+
+## L1.1 — Triggers
+
+```yaml
+trigger:
+  type: {{TRIGGER_TYPE}}
+  source: {{TRIGGER_SOURCE}}
+  initial_state: {{TRIGGER_INITIAL_STATE}}
+  preconditions:
+{% for pc in PRECONDITIONS %}
+    - "{{pc}}"
+{% endfor %}
+  post_conditions:
+{% for pc in POST_CONDITIONS %}
+    - "{{pc}}"
+{% endfor %}
+```
+
+---
+
+## L1.2 — Inputs
+
+| Input | Source | Required | Used In Step |
+|---|---|---|---|
+{% for input in INPUTS %}
+| {{input.name}} | {{input.source}} | {{input.required}} | {{input.used_in_step}} |
+{% endfor %}
+
+---
+
+## L1.3 — Roles & Responsibilities
+
+> **TTL Note**: Role names, contacts, and team assignments are volatile. Add `@valid_until=YYYY-Q#` for each role during generation.
+
+{% for role in ROLES %}
+### {{role.name}} (`{{role.id}}`)<!-- TTL: @valid_until={{ROLE_TTL}} -->
+
+- **Persona**: {{role.persona}}
+- **Nature**: {{role.nature}}
+- **Home Team**: {{role.home_team}}<!-- TTL: @valid_until={{ROLE_TTL}} -->
+- **Collaboration Context**: {{role.collaboration_context}}
+- **Boundaries**: {{role.boundaries}}
+{% if role.nature == "conditional" %}
+- **Binding Rule**:
+{% for rule in role.binding_rule %}
+  - {{rule.condition}} → {{rule.binds_to}}
+{% endfor %}
+{% endif %}
+
+{% endfor %}
+
+---
+
+## L1.4 — Step Sequence
+
+{% for step in STEPS %}
+### {{step.id}} — {{step.name}}
+
+- **Executor**: {{step.executor_role}}
+- **Inputs**: {{step.inputs | join(", ") or "None"}}
+- **Actions**:
+{% for action in step.actions %}
+  1. {{action}}
+{% endfor %}
+- **Outputs**: {{step.outputs | join(", ") or "None"}}
+- **Duration**: {{step.duration.type}} — {{step.duration.value}}
+{% if step.trace_status %}
+- **Trace Status**: {{step.trace_status}}<!-- Phase 3 Trace Mode -->
+{% if step.trace_last_check %}- **Last Checked**: {{step.trace_last_check}}{% endif %}
+{% endif %}
+{% if step.loop_back_target %}
+- **Loop Back To**: {{step.loop_back_target}}
+{% endif %}
+{% if step.related_invariant %}
+- **Related Invariants**: {{step.related_invariant | join(", ")}}
+{% endif %}
+- **Next**:
+{% for next in step.next %}
+  - {% if next.condition %}**IF** {{next.condition}} **THEN** → {{next.goto}}{% else %}(default) → {{next.goto}}{% endif %}
+{% endfor %}
+
+{% endfor %}
+
+---
+
+## L1.5 — Decision Points
+
+{% for decision in DECISIONS %}
+### {{decision.id}} — {{decision.description}}
+
+- **Type**: {{decision.type}}
+- **Condition Quality**: {{decision.condition_quality}}
+- **Affects**: {{decision.affects}}
+{% if decision.type == "binary" %}
+- **Condition**: {{decision.condition}}
+- **If YES** → {{decision.yes_goto}}
+- **If NO** → {{decision.no_goto}}
+{% elif decision.type == "nested" %}
+```yaml
+nested_logic:
+{{decision.nested_logic | indent(2)}}
+```
+{% elif decision.type == "decision_table" %}
+| {{decision.table_headers | join(" | ")}} |
+|---|{% for h in decision.table_headers %}---|{% endfor %}
+{% for row in decision.table_rows %}
+| {{row | join(" | ")}} |
+{% endfor %}
+{% elif decision.type == "timing" %}
+- **Timing Rule**: {{decision.timing_rule}}
+{% elif decision.type == "attribute" %}
+- **Affected Attribute**: {{decision.attribute_name}}
+- **Determination Rule**: {{decision.attribute_rule}}
+{% endif %}
+
+{% endfor %}
+
+---
+
+## L1.6 — State Machine
+
+- **Extraction Status**: {{STATE_EXTRACTION_STATUS}}
+
+| State ID | State Name | Terminal | Failure Type |
+|---|---|---|---|
+{% for state in STATES %}
+| {{state.id}} | {{state.name}} | {{state.terminal}} | {{state.failure_type}} |
+{% endfor %}
+
+**Transitions**:
+
+| From | To | Triggered By |
+|---|---|---|
+{% for t in TRANSITIONS %}
+| {{t.from}} | {{t.to}} | {{t.triggered_by}} |
+{% endfor %}
+
+---
+
+## L1.7 — RACIO Matrix
+
+| Step |{% for role in ROLES %} {{role.id}} |{% endfor %}
+|---|---|{% for role in ROLES %}---|{% endfor %}
+{% for row in RACIO_MATRIX %}
+| {{row.step_id}} |{% for cell in row.assignments %} {{cell}} |{% endfor %}
+{% endfor %}
+
+**Legend**: R = Responsible, A = Accountable, C = Consulted, I = Informed, O = Oversight
+
+---
+
+## L1.8 — SLAs & Metrics
+
+> **TTL Note**: SLA numbers are volatile and MUST be annotated. Tool URLs also require TTL.
+
+{% for metric in METRICS %}
+### {{metric.name}}
+
+- **Type**: {{metric.type}}
+- **Target**: {{metric.target}}<!-- TTL: @valid_until={{SLA_TTL}} -->
+- **Source**: {{metric.source}}
+{% if metric.type == "threshold" %}
+- **Threshold**: {{metric.threshold.operator}} {{metric.threshold.value}} {{metric.threshold.unit}}
+- **Monitoring**: {{metric.threshold.monitoring_frequency}}
+{% endif %}
+{% if metric.related_invariant %}
+- **Related Invariants**: {{metric.related_invariant | join(", ")}}
+{% endif %}
+
+{% endfor %}
+
+---
+
+## L1.9 — Scope Boundaries
+
+### In Scope
+
+{% for item in IN_SCOPE %}
+- {{item}}
+{% endfor %}
+
+### Out of Scope
+
+{% for item in OUT_OF_SCOPE %}
+- **{{item.description}}**
+  - Reference Type: {{item.reference.type}}
+  - Target: {{item.reference.target}}
+{% if item.reference.handoff_event %}
+  - Handoff: `{{item.reference.handoff_event.from_step}}` → `{{item.reference.handoff_event.to_step}}` via {{item.reference.handoff_event.mechanism}}
+  - Handoff SLA: {{item.reference.handoff_event.sla}}
+  - Failure Recovery: {{item.reference.handoff_event.failure_recovery}}
+{% endif %}
+
+{% endfor %}

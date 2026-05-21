@@ -1,0 +1,90 @@
+---
+name: process-{{PROCESS_NAME}}
+description: {{PROCESS_PURPOSE_ONE_LINER}} 的标准化流程 Skill。覆盖端到端执行、培训、审计与持续改进。中文触发：{{PROCESS_NAME}}流程 / {{PROCESS_NAME}}操作 / {{PROCESS_NAME}}怎么办 / {{PROCESS_KEY_VERBS}}。英文触发：{{PROCESS_NAME}} process / {{PROCESS_NAME}} workflow / how to {{PROCESS_NAME}}。
+agent_created: true
+generated_by_meta_skill_version: {{META_SKILL_VERSION}}
+---
+
+# {{PROCESS_NAME}}
+
+## Intent Detection — 我能帮你什么
+
+当用户提问时，按以下关键词路由到对应内容：
+
+{{INTENT_ROUTING_TABLE}}
+
+## 流程总览
+
+{{HAPPY_PATH_MERMAID}}
+
+## 我是谁？按角色导航
+
+{{ROLE_NAVIGATION_TABLE}}
+
+## Happy Path 快速执行
+
+以下是本流程主路径的前几步，供首次使用者快速上手。完整步骤和异常路径见 `references/process-brief.md`。
+
+⛔ **执行前检查**：开始操作前确认——
+{{PRE_EXECUTION_CHECKLIST}}
+
+{{HAPPY_PATH_STEPS}}
+
+## 异常速查
+
+遇到问题？先看这里。完整异常处理见 `references/process-brief.md` 各步骤的 .E/.A 分支。
+
+{{EXCEPTION_QUICK_REF}}
+
+## FAQ 速查
+
+{{FAQ_TABLE}}
+
+## 不可变约束
+
+以下约束无论由谁执行本流程都必须遵守：
+
+{{INVARIANTS_TABLE}}
+
+## 参考文档
+
+| 文件 | 内容 | 何时阅读 |
+|---|---|---|
+| `references/process-brief.md` | 完整流程定义（步骤、角色、决策、SLA、边界） | 理解完整流程 |
+| `references/foundational-logic.md` | 目的、权衡、设计原则、方法论来源 | 理解 WHY |
+| `references/output-recipes.md` | 所有生成的产物格式（SOP、Runbook、RACIO 等） | 生成特定产出 |
+| `references/artifacts-registry.md` | 本流程使用的表单、模板、检查清单 | 查找具体物件 |
+| `references/visualization-spec.md` | 流程图绘制约定（Mermaid） | 渲染或修改流程图 |
+| `references/cases-library.md` | 真实案例、事件、经验教训 | 从经验中学习 |
+
+## 最近变更
+
+{{RECENT_CHANGES}}
+
+## 版本历史
+
+详见 `CHANGELOG.md`。当前版本：{{PROCESS_VERSION}}。
+
+{% if HAS_TTL_FIELDS %}
+**TTL 提示**：标记为 `@valid_until=YYYY-Q#` 的字段可能过期。请每季度运行 `process-architect ttl-check --skill ./` 检查。过期字段列表见 `references/process-brief.md` 中的 TTL 注释。
+{% endif %}
+
+## 生命周期维护
+
+本 Skill 包含 TTL 标记（`@valid_until=YYYY-Q#`），标注在以下易变字段上：
+- SLA 数字（L1.8）
+- 工具/系统 URL（L1.4、L1.3）
+- 角色联系人（L1.3）
+- 量级估算（L1.8）
+
+维护命令：
+```bash
+# 季度 TTL 检查
+process-architect ttl-check --skill ./
+
+# 版本升级
+process-architect bump --skill ./ --type minor "描述变更内容"
+
+# 变更前影响评估
+process-architect diff-plan --skill ./ --since {{PREV_VERSION}}
+```

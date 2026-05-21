@@ -1,0 +1,66 @@
+# 基础逻辑 — {{PROCESS_NAME}}
+
+> 流程背后的"为什么"。阅读本章以理解设计理由，而非仅知步骤。
+
+---
+
+## 核心目的
+
+{{CORE_PURPOSE}}
+
+**本流程优化的核心维度**：{{OPTIMIZATION_TARGET}}
+
+---
+
+## 显式权衡
+
+我们刻意选择了：
+
+{% for tradeoff in TRADEOFFS %}
+- {{tradeoff}}
+{% endfor %}
+
+---
+
+## 设计原则
+
+本流程遵循以下核心原则：
+
+{% for principle in DESIGN_PRINCIPLES %}
+### {{principle.name}}
+
+{{principle.description}}
+
+{% endfor %}
+
+---
+
+## 方法论来源
+
+**参考框架**：{{SOURCE_ATTRIBUTION}}
+
+{% if SOURCE_ATTRIBUTION_DETAIL %}
+{{SOURCE_ATTRIBUTION_DETAIL}}
+{% endif %}
+
+---
+
+## 角色语言接口
+
+同一概念，不同角色的表达方式：
+
+| 概念 | 操作员 | 负责人 | 审计员 | 客户 |
+|---|---|---|---|---|
+{% for entry in ROLE_LANGUAGE %}
+| {{entry.concept}} | {{entry.operator}} | {{entry.owner}} | {{entry.auditor}} | {{entry.customer}} |
+{% endfor %}
+
+---
+
+## 适用边界
+
+以下情况**不应**使用本流程：
+
+{% for boundary in USAGE_BOUNDARIES %}
+- {{boundary}}
+{% endfor %}

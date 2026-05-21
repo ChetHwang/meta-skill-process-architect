@@ -1,0 +1,18 @@
+# Owner Survey — {{PROCESS_NAME}}
+
+> **Your answers will be used directly to generate the process Skill document.**
+
+---
+
+1. **Process Purpose**: In one sentence, why does this process exist?
+2. **Trigger**: What specific event starts it? (NOT "开始" — concrete: "用户提交退款表单")
+3. **Non-Negotiable Rules**: What are the red lines? What must NEVER be violated?
+4. **Roles**: List ALL roles involved. Who is ultimately ACCOUNTABLE?
+5. **Scope**: What does this process explicitly NOT cover?
+6. **SLA Targets**: What are the time/quality targets? (concrete numbers)
+7. **Methodology**: Did you model this on any framework? (ITIL/Lean/internal?)
+8. **Tradeoffs**: What did you deliberately give up? (speed vs compliance?)
+9. **One Thing to Fix**: If you could only change one thing?
+10. **Doc vs Reality**: Is the official documentation accurate?
+
+**Submit by**: [date] | **Contact**: [name]

@@ -1,0 +1,71 @@
+# 案例与学习库 — {{PROCESS_NAME}}
+
+> **L6 — 案例与学习库**：真实案例、事件和经验教训。
+> 每个案例必须引用：关联的步骤 ID 和红线 ID。
+
+---
+
+## 案例索引
+
+| ID | 日期 | 类型 | 摘要 | 关联步骤 | 关联红线 |
+|---|---|---|---|---|---|
+{% for case in CASES %}
+| {{case.id}} | {{case.date}} | {{case.type}} | {{case.summary}} | {{case.related_steps | join('、')}} | {{case.related_invariants | join('、')}} |
+{% endfor %}
+
+---
+
+## 详细案例
+
+{% for case in CASES %}
+### {{case.id}} — {{case.summary}}
+
+- **类型**：{{case.type}}（成功 / 失败 / 边界 / 事件）
+- **日期**：{{case.date}}
+- **严重度**：{{case.severity or '不适用'}}
+
+**时间线**：{{case.timeline}}
+
+**根因**：{{case.root_cause}}
+
+**教训**：{{case.lesson}}
+
+**如何避免**：{{case.how_to_avoid}}
+
+**流程影响**：
+- 关联步骤：{{case.related_steps | join('、')}}
+- 关联红线：{{case.related_invariants | join('、')}}
+{% if case.changelog_ref %}
+- 变更记录：{{case.changelog_ref}}
+{% endif %}
+{% endfor %}
+
+---
+
+## 案例统计
+
+| 类型 | 数量 |
+|---|---|
+| 成功 | {{STATS.success}} |
+| 失败 | {{STATS.failure}} |
+| 边界 | {{STATS.edge}} |
+| 事件 | {{STATS.incident}} |
+
+---
+
+## 案例模板（新条目用）
+
+```yaml
+- id: {{CASE_DATE}}-{{CASE_SLUG}}
+  type: success | failure | edge | incident
+  date: {{CASE_DATE}}
+  summary: <一句话摘要>
+  timeline: |
+    - HH:MM — 事件 1
+    - HH:MM — 事件 2
+  root_cause: <5 Whys 或类似方法>
+  lesson: <学到什么>
+  how_to_avoid: <具体预防措施>
+  related_steps: [S1, S2]
+  related_invariants: [AP01]
+```

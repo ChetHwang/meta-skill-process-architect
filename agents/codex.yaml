@@ -1,0 +1,33 @@
+# Standalone / OpenAI Codex / Generic Agent Configuration
+# For platforms without native skill systems — use this as a knowledge bundle.
+interface:
+  display_name: "Process Architect"
+  short_description: "A meta-skill for generating process documentation Skills. Use with any LLM agent."
+  
+  # Standalone usage: bundle all .md files as knowledge context
+  # For Codex/API: inject SKILL.md + references/ as system prompt context
+  
+  entry_point: "SKILL.md"
+  required_context:
+    - "SKILL.md (workflow instructions)"
+    - "references/process-archetype.md (L0-L6 schema)"
+    - "references/role-audience-model.md (7 role model)"
+  
+  standalone_bundle:
+    format: "Concatenated Markdown"
+    order:
+      - SKILL.md
+      - references/process-archetype.md
+      - references/role-audience-model.md
+      - references/lifecycle-operations.md
+      - references/trace-mode.md
+      - references/cross-process-network.md
+    max_context_chunks: 8
+
+  # For OpenAI GPTs / Custom GPTs:
+  # Upload SKILL.md + references/ as Knowledge Files
+  # Set custom instructions from SKILL.md Workflow section
+  
+  # For API use (OpenAI/Anthropic/DeepSeek):
+  # Concatenate SKILL.md + references/process-archetype.md into system prompt
+  # Load other references on-demand based on user request

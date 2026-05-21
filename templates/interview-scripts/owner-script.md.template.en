@@ -1,0 +1,77 @@
+# Owner Interview Script — {{PROCESS_NAME}}
+
+> **Respondent**: Process Owner ({{OWNER_NAME}})
+> **Duration**: 15-20 minutes
+> **Goal**: Capture trigger, invariants, scope, Source Attribution, role roster
+
+---
+
+## Part 1: Process Identity (3 min)
+
+1. What is this process called? (official name)
+2. In one sentence: why does this process exist?
+3. What business problem does it solve?
+
+→ Maps to: `process_name`, `purpose_one_liner`
+
+---
+
+## Part 2: Trigger & Boundaries (3 min)
+
+4. What specific event starts this process? ("Customer submits refund form" — not "开始")
+5. What must be true BEFORE this process can start? (preconditions)
+6. What does this process explicitly NOT cover? (out of scope)
+7. What adjacent processes does it hand off to?
+
+→ Maps to: `trigger`, `preconditions`, `scope`
+
+---
+
+## Part 3: Roles & Accountability (3 min)
+
+8. Who are ALL the roles involved? List every role, don't skip oversight/audit roles.
+9. Who is the single person ultimately ACCOUNTABLE for this process's results?
+10. Which roles have decision authority? What are the limits?
+11. Are any roles conditional? (e.g., "depends on whether user is in honeymoon period")
+
+→ Maps to: `roles`, `process_owner.primary`
+
+---
+
+## Part 4: Invariants & Red Lines (3 min)
+
+12. What are the non-negotiable rules? (e.g., "legal docs MUST be signed before equipment")
+13. What would get someone in trouble if they violated it?
+14. Are there compliance/regulatory requirements tied to specific steps?
+
+→ Maps to: `invariants`
+
+---
+
+## Part 5: SLA & Metrics (3 min)
+
+15. What are the SLA targets for this process? (concrete numbers: "4 hours", not "quickly")
+16. What metrics do you track to know if this process is healthy?
+17. Where do these numbers come from? (historical data, OKRs, regulatory requirement?)
+
+→ Maps to: `metrics`
+
+---
+
+## Part 6: Source & Design (2 min)
+
+18. Did you model this process on any framework? (ITIL, Lean, internal methodology?)
+19. What did you deliberately trade off? (speed vs compliance, cost vs quality)
+
+→ Maps to: `source_attribution`, `explicit_tradeoffs`
+
+---
+
+## Quick Wins (last 2 min)
+
+20. If you could fix ONE thing about this process today, what would it be?
+21. Is there anything in the official documentation that doesn't match reality?
+
+---
+
+**Post-Interview**: Thank the owner. Confirm you'll send a validation checklist after merging with Operator/Auditor input.

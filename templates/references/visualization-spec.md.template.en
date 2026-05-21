@@ -1,0 +1,75 @@
+# Visualization Spec — {{PROCESS_NAME}}
+
+> **L5 — Process Visualization**: Diagram conventions for this process.
+> Must reference L1.4 (step sequence) and L1.7 (RACIO matrix) for auto-rendering.
+
+---
+
+## Diagram Type
+
+- **Primary Type**: {{PRIMARY_DIAGRAM_TYPE}} (swimlane / flowchart / value_stream_map)
+- **Vibe Keywords**: {{VIBE_KEYWORDS}} (e.g., "operator-first", "compliance-emphasis")
+
+---
+
+## Color Semantics
+
+| Element | Color | Hex | Applies To |
+|---|---|---|---|
+| Manual Step | {{COLOR_MANUAL}} | {{HEX_MANUAL}} | Steps executed by human operator |
+| Automated Step | {{COLOR_AUTO}} | {{HEX_AUTO}} | Steps executed by system/API |
+| Decision Point | {{COLOR_DECISION}} | {{HEX_DECISION}} | Diamond/gateway nodes |
+| Exception Path | {{COLOR_EXCEPTION}} | {{HEX_EXCEPTION}} | .E steps, error flows |
+| Handoff | {{COLOR_HANDOFF}} | {{HEX_HANDOFF}} | Cross-role or cross-process transitions |
+| Success Terminal | {{COLOR_SUCCESS}} | {{HEX_SUCCESS}} | Happy-path end states |
+
+---
+
+## Naming Convention
+
+- **Step Label Format**: `<b>{{STEP_ID}}</b><br/>{{STEP_NAME}}`
+- **Max Characters per Node**: {{MAX_CHARS}} (recommended: 30-40)
+- **Step Prefix**: {{STEP_NAME_PREFIX}} (verb / noun / id)
+
+---
+
+## Step → Node Mapping
+
+| Step ID (L1.4) | Node Label | Color | Swimlane |
+|---|---|---|---|
+{% for step in STEPS %}
+| {{step.id}} | `<b>{{step.id}}</b><br/>{{step.name}}` | {{step.color}} | {{step.swimlane}} |
+{% endfor %}
+
+---
+
+## Mermaid Source Template
+
+```mermaid
+{{MERMAID_TEMPLATE}}
+```
+
+---
+
+## Visual No-Gos
+
+{% for nogo in VISUAL_NO_GOS %}
+- ❌ {{nogo}}
+{% endfor %}
+
+Examples:
+- Arrows flowing backward (only forward or loop-back)
+- Orphan nodes (every node must have in/out edges or be terminal)
+- Unclosed branches (every decision must have all exits)
+- Direct cross-swimlane arrow jumps (use handoff nodes)
+
+---
+
+## Rendering Rules (for auto-generation)
+
+1. Parse L1.4 `steps[]` array → create one node per step
+2. Parse L1.7 RACIO matrix → group nodes into swimlanes by role
+3. Parse `steps[].next` → create edges between nodes
+4. Parse `steps[].loop_back_target` → create loop-back edges (dashed)
+5. Apply color semantics based on step type (manual/auto/exception)
+6. Add start/end terminal nodes

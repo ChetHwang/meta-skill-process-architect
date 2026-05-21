@@ -1,0 +1,42 @@
+# Artifacts Registry — {{PROCESS_NAME}}
+
+> **L4 — 流程产物**：本流程消费或产出的具体物件。
+> 每个产物必须标注：哪个步骤用/产出、哪个角色负责、存放在哪、何时过期。
+> **TTL 提示**：存放位置（URL/路径）和负责人为易变字段，生成时必须标注 `@valid_until=YYYY-Q#`。
+
+---
+
+## 产物索引
+
+| ID | 名称 | 类型 | 使用步骤 | 产出步骤 | 负责人 | 存放位置 | 过期 |
+|---|---|---|---|---|---|---|---|
+{% for a in ARTIFACTS %}
+| {{a.id}} | {{a.name}} | {{a.type}} | {{a.used_in_step}} | {{a.produced_in_step}} | {{a.owner_role}} | {{a.storage_location}} | {{a.expires or '—'}} |
+{% endfor %}
+
+---
+
+## 详细条目
+
+{% for a in ARTIFACTS %}
+### {{a.id}} — {{a.name}}
+
+- **类型**：{{a.type}}（表单 / 检查清单 / 模板 / 工单模板 / 数据 schema / 报告）
+- **用途**：{{a.purpose}}
+- **使用于**：步骤 {{a.used_in_step}} — 由 {{a.owner_role}} 在执行中消费
+- **产生于**：步骤 {{a.produced_in_step}} — 由 {{a.producer_role}} 创建/完成
+- **存放**：{{a.storage_location}}<!-- TTL: @valid_until={{ARTIFACT_TTL}} -->
+- **过期**：{{a.expires or '不过期 — 审计留存'}}<!-- TTL: 若有过期日期则标注 @valid_until -->
+- **隐含指标**：{{a.implies_metric}} {% if a.implies_metric %} → 自动在 L1.8 创建占位指标："{{a.implied_metric_name}}"{% endif %}
+
+{% endfor %}
+
+---
+
+## 产物↔步骤 交叉引用
+
+| 步骤 ID | 消费 | 产出 |
+|---|---|---|
+{% for step in STEP_ARTIFACT_MAP %}
+| {{step.id}} | {{step.consumes | join('、') or '—'}} | {{step.produces | join('、') or '—'}} |
+{% endfor %}

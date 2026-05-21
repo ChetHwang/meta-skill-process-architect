@@ -1,0 +1,3 @@
+# CLI dependencies for meta-skill-process-architect
+# Phase 1: no external dependencies required (stdlib only)
+# Phase 2+: add PyYAML, requests, etc. for Auto-Scan/Interview modes

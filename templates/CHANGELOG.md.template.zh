@@ -1,0 +1,29 @@
+# 变更日志 — {{PROCESS_NAME}}
+
+本流程所有重要变更遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
+
+## 版本规则
+
+| 版本号 | 触发条件 |
+|---|---|
+| 主版本号 | 流程根本性重构；范围边界变化；目的变化；合规框架变化 |
+| 次版本号 | 新增/移除步骤；新增/移除角色；新增/移除产物；新增配方 |
+| 修订号 | 步骤措辞调整；TTL 字段刷新；新增案例；错别字 |
+
+---
+
+## [1.0.0] — {{VERSION_VALID_FROM}}（{{LIFECYCLE_PHASE}}{% if TRIAL_UNTIL %}，试运行至 {{TRIAL_UNTIL}}{% endif %}）
+
+### 生成内容
+- L0-L6 完整流程文档
+- 6 个产物配方（SOP、Runbook、RACIO、FAQ、流程图、异常手册）
+- 反模式扫描结果：{{ANTI_PATTERN_RESULT}}
+
+### 素材来源
+{{SOURCE_MATERIALS_SUMMARY}}
+
+### 已知缺口
+{{KNOWN_GAPS}}
+
+### TTL 字段
+{{TTL_FIELDS_LIST}}

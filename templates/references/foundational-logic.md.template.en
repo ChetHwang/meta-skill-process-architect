@@ -1,0 +1,66 @@
+# Foundational Logic — {{PROCESS_NAME}}
+
+> The "why" behind the process. Read this to understand the reasoning, not just the steps.
+
+---
+
+## Core Purpose
+
+{{CORE_PURPOSE}}
+
+**What does this process optimize?** {{OPTIMIZATION_TARGET}}
+
+---
+
+## Explicit Tradeoffs
+
+We deliberately chose:
+
+{% for tradeoff in TRADEOFFS %}
+- {{tradeoff}}
+{% endfor %}
+
+---
+
+## Design Principles
+
+This process follows these core principles:
+
+{% for principle in DESIGN_PRINCIPLES %}
+### {{principle.name}}
+
+{{principle.description}}
+
+{% endfor %}
+
+---
+
+## Source Attribution
+
+**Methodology / Framework**: {{SOURCE_ATTRIBUTION}}
+
+{% if SOURCE_ATTRIBUTION_DETAIL %}
+{{SOURCE_ATTRIBUTION_DETAIL}}
+{% endif %}
+
+---
+
+## Role-Language Interface
+
+The same concept, expressed for different roles:
+
+| Concept | Operator | Owner | Auditor | Customer |
+|---|---|---|---|---|
+{% for entry in ROLE_LANGUAGE %}
+| {{entry.concept}} | {{entry.operator}} | {{entry.owner}} | {{entry.auditor}} | {{entry.customer}} |
+{% endfor %}
+
+---
+
+## Usage Boundaries
+
+This process should NOT be used when:
+
+{% for boundary in USAGE_BOUNDARIES %}
+- {{boundary}}
+{% endfor %}

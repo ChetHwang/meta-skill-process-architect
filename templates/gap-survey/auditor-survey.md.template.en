@@ -1,0 +1,18 @@
+# Auditor Survey — {{PROCESS_NAME}}
+
+> **Your answers will be used directly to generate the process Skill document.**
+
+---
+
+1. **Red Lines**: What are the absolute no-gos? What triggers a violation?
+2. **Red Line → Step Mapping**: Which specific step(s) does each red line apply to?
+3. **Evidence Checkpoints**: At which steps should there be an audit trail?
+4. **Common Violations**: What violations do you see most often? Any patterns?
+5. **Metrics Tracked**: What metrics do you monitor for process health?
+6. **Thresholds**: Are there thresholds that trigger escalation?
+7. **Coverage**: What % of cases do you audit? (100% for P0, sampling for others?)
+8. **Weak Spots**: Where is the process most vulnerable?
+9. **Recent Case**: Share a recent violation case. What changed as a result?
+10. **Wishlist**: What would you want documented that currently isn't?
+
+**Submit by**: [date] | **Contact**: [name]

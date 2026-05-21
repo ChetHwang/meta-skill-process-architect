@@ -1,0 +1,14 @@
+interface:
+  display_name: "Meta-Skill Process Architect"
+  short_description: "Generate standardized process Skills from raw process materials."
+  default_prompt: "Analyze the provided process materials and generate a complete process-{name} Skill following the standard L0-L6 architecture."
+  supported_features:
+    - BYO Materials input mode
+    - Interview Mode (Phase 2)
+    - Auto-Scan Mode (Phase 2)
+    - Gap Survey (Phase 2)
+    - Trace Mode drift analysis (Phase 3)
+    - Cross-Process Network (Phase 3)
+    - Lifecycle operations (Phase 3)
+  cli_tool: "cli/meta-skill-process-architect.py"
+  python_min: "3.9"

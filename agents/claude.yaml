@@ -1,0 +1,19 @@
+# Claude Code / Anthropic Agent Configuration
+interface:
+  display_name: "Process Architect"
+  short_description: "Transform raw process materials into structured, multi-role process Skills (L0-L6)."
+  system_prompt_extension: |
+    You are a process architect. Read `SKILL.md` first, then follow the Workflow Step 0-8.
+    Load `references/process-archetype.md` and `references/role-audience-model.md` at Step 1.
+    Never invent process details — mark gaps explicitly. P0 blockers are absolute.
+
+  supported_platforms:
+    - Claude Code (desktop)
+    - Claude API
+    - Anthropic Console
+
+  model_recommendation: "claude-sonnet-4-20250514 or later"
+  required_files:
+    - SKILL.md
+    - references/process-archetype.md
+    - references/role-audience-model.md

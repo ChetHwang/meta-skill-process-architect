@@ -1,0 +1,560 @@
+# Output Recipes — {{PROCESS_NAME}}
+
+> Generated recipe collection. Each recipe targets a specific role and use case.
+> **Phase 1 recipes (6)**: SOP, Runbook, RACIO, FAQ, Process Map, Exception Playbook.
+> **Phase 2 recipes (8)**: Training Module, Quick Reference Card, Compliance Memo, Stakeholder One-Pager, Metrics Dashboard Spec, Change Announcement, Onboarding Checklist, Post-Mortem Template.
+
+---
+
+## Recipe 1: Standard Operating Procedure (SOP)
+
+**Primary Role**: Operator, Auditor
+**When to generate**: Always (default recipe)
+
+### Recommended Structure
+
+1. Document Control (version, effective date, owner)
+2. Purpose & Scope
+3. Definitions / Glossary
+4. Responsibilities (who does what)
+5. Procedure (numbered steps with substeps)
+6. Decision Log (reference to L1.5 decisions used in this SOP)
+7. Related Documents
+8. Revision History
+
+### Writing Tips
+
+- Number every step. Use `S{n}` convention matching L1.4.
+- Each step must have: ACTION (verb-led), EXPECTED RESULT, EXCEPTION (what if it fails)
+- Use **bold** for system names, `code` for field names/values
+- Keep each step to 3-5 sentences. If longer, split into sub-steps.
+- Include screenshots or tool URLs where available.
+
+### Tone Sample
+
+> **S1 — Verify Refund Eligibility**
+> 1. Open the CRM system (**Salesforce**) and navigate to the customer's account.
+> 2. Check the `purchase_date` field. If purchase was within 7 calendar days AND course progress < 25%, the customer is eligible for full refund.
+>    - **Expected**: `eligibility_status` updates to "eligible"
+>    - **Exception (S1.E)**: If purchase was > 7 days ago, escalate to Team Lead for manual review.
+> 3. Record the eligibility decision in the `refund_case` ticket with tag `#refund-verified`.
+
+### Anti-Example (DO NOT DO THIS)
+
+> 第一步：处理退款。
+> 问一下主管能不能退，然后操作退款。
+
+**Why it's bad**: No system name, no fields, no decision criteria, no exception handling, vague action.
+
+---
+
+## Recipe 2: Runbook
+
+**Primary Role**: Operator
+**When to generate**: Always
+
+### Recommended Structure
+
+1. Quick Start (TL;DR for urgent situations)
+2. Prerequisites (system access, permissions, tools open)
+3. Step-by-Step Execution (same as SOP but with troubleshooting embedded per step)
+4. Troubleshooting Guide (common errors + resolution)
+5. Escalation Paths (when to escalate, to whom, how)
+6. Recovery Procedures (how to undo/rollback if step fails)
+
+### Writing Tips
+
+- Unlike SOP, Runbook assumes the operator is mid-execution and may be stressed.
+- Each step includes "What Could Go Wrong" subsection.
+- Use imperative mood: "Click", "Enter", "Verify".
+- Include exact error messages and their resolutions.
+- Escalation must have: trigger condition + contact method + expected response time.
+
+### Tone Sample
+
+> **S3 — Process Refund in Payment Gateway**
+> 1. Log into **Stripe Dashboard** (stripe.com/dashboard).
+> 2. Search for transaction ID `{{transaction_id}}`.
+> 3. Click **Refund** → Select "Full" → Enter reason code `{{reason_code}}`.
+>    - **What Could Go Wrong**: "Transaction not found" → verify ID format is `ch_XXX`. If still not found, check if payment was processed through alternate gateway (PayPal).
+> 4. Confirm refund. Stripe will display confirmation ID `re_XXX`. Copy this to the ticket.
+
+### Anti-Example (DO NOT DO THIS)
+
+> 退款需要系统权限，找管理员开通。然后在支付系统操作退款。如果失败重试。
+
+**Why it's bad**: No specific system name, no exact steps, no error resolution, vague escalation.
+
+---
+
+## Recipe 3: RACIO Matrix
+
+**Primary Role**: Manager, PMO
+**When to generate**: Always
+
+### Recommended Structure
+
+1. Legend (R/A/C/I/O definitions in context)
+2. Matrix (Step × Role grid)
+3. Notes (special assignments, conditional roles explained)
+4. Accountability Gaps (steps with no "A" — auto-flagged)
+
+### Writing Tips
+
+- Each step MUST have exactly one "A" (Accountable). Flag gaps automatically.
+- Multiple "R" (Responsible) per step is OK — these are co-executors.
+- "O" (Oversight) is for audit/compliance roles that consume evidence but don't execute.
+- Conditional roles: if a role's nature is `conditional`, add a footnote explaining the binding rule.
+
+### Tone Sample
+
+| Step | CS Agent | Team Lead | Finance | QA Auditor |
+|---|---|---|---|---|
+| S1 Verify Eligibility | R, A | C | | O |
+| S2 Calculate Refund | R | A | C | |
+| S3 Process Payment | | R | R, A | |
+| S4 Notify Customer | R, A | I | | |
+| S5 Close & Archive | R | A | | O |
+
+### Anti-Example (DO NOT DO THIS)
+
+| Step | Everyone |
+|---|---|
+| S1 | R |
+| S2 | R |
+
+**Why it's bad**: No accountability ("A" missing), "Everyone" is not a role, no distinction between execution and oversight.
+
+---
+
+## Recipe 4: FAQ
+
+**Primary Role**: Operator, Customer
+**When to generate**: If Operator or Customer role is involved
+
+### Recommended Structure
+
+1. General Questions (what is this process?)
+2. Operator Questions (how do I do X?)
+3. Customer Questions (what happens to me?)
+4. Edge Cases (what if Y happens?)
+5. Quick Contact (who to reach for more questions)
+
+### Writing Tips
+
+- Maximum 3 sentences per answer. Link to SOP/process-brief for details.
+- Group by role, not by topic.
+- Update FAQ when new edge cases are discovered (link to L6 cases-library).
+- Include "Last Updated" date at top.
+
+### Tone Sample (Operator FAQ)
+
+> **Q: How do I know if this refund is eligible for full refund?**
+> A: Check purchase date (≤ 7 days) AND course progress (< 25%). Both must be true. See SOP Step S1 for detailed instructions.
+
+> **Q: What if the customer paid via WeChat and Stripe doesn't have the transaction?**
+> A: Check the WeChat Pay merchant portal instead. Transaction prefix is `wx_`. Escalate to Finance if neither system has the record.
+
+### Tone Sample (Customer FAQ)
+
+> **Q: How long will my refund take?**
+> A: Within 5-7 business days after approval. You'll receive an SMS when the refund is initiated, and another when it reaches your account.
+
+### Anti-Example (DO NOT DO THIS)
+
+> Q: 能退款吗？
+> A: 看情况。
+
+**Why it's bad**: No decision criteria, no link to detailed procedure, unhelpfully vague.
+
+---
+
+## Recipe 5: Process Map (Mermaid)
+
+**Primary Role**: Analyst, Owner
+**When to generate**: Always
+
+### Recommended Structure
+
+1. Diagram Type Declaration (swimlane / flowchart)
+2. Mermaid Source Code
+3. Color Legend
+4. Reading Guide (how to interpret this specific diagram)
+
+### Writing Tips
+
+- Use `swimlane` (Mermaid `graph TD` with subgraphs) as default for processes with ≥ 3 roles.
+- Use `flowchart` for single-role processes.
+- Color semantics:
+  - `#2d2d2d` — manual step
+  - `#1a56db` — automated/system step
+  - `#d97706` — decision point
+  - `#dc2626` — exception path
+  - `#7c3aed` — handoff to another process
+- Step naming in diagram: use `S1`, `S2`, `S2.E`, etc. matching L1.4 IDs.
+- Include start/end nodes explicitly.
+
+### Tone Sample
+
+```mermaid
+graph TD
+    START((Start)) --> S1
+    S1[<b>S1</b><br/>Verify Refund<br/>Eligibility] --> D1{Within<br/>7 days?}
+    D1 -->|Yes| S2
+    D1 -->|No| S2_A
+    S2[<b>S2</b><br/>Calculate Refund<br/>Amount] --> S3
+    S2_A[<b>S2.A</b><br/>Manual Review<br/>by Team Lead] --> S3
+    S3[<b>S3</b><br/>Process Refund<br/>in Stripe] --> S4
+    S4[<b>S4</b><br/>Notify Customer<br/>via SMS] --> S5
+    S5[<b>S5</b><br/>Close & Archive<br/>Ticket] --> END((End))
+
+    style S1 fill:#2d2d2d,color:#fff
+    style S2 fill:#2d2d2d,color:#fff
+    style S3 fill:#1a56db,color:#fff
+    style S4 fill:#1a56db,color:#fff
+    style S5 fill:#2d2d2d,color:#fff
+    style D1 fill:#d97706,color:#fff
+    style S2_A fill:#dc2626,color:#fff
+```
+
+### Anti-Example (DO NOT DO THIS)
+
+```
+A → B → C → Done
+```
+
+**Why it's bad**: No step IDs, no role attribution, no decision points, no exception paths, no visual semantics.
+
+---
+
+## Recipe 6: Exception Playbook
+
+**Primary Role**: Operator, Owner
+**When to generate**: Always (even if no exceptions are documented — then it becomes a template for future exceptions)
+
+### Recommended Structure
+
+1. Exception Index (all known exceptions with IDs)
+2. Per Exception:
+   - Trigger (how to recognize this exception)
+   - Severity (P0/P1/P2)
+   - Immediate Action (first thing to do)
+   - Resolution Path (step-by-step)
+   - Escalation (if resolution fails)
+   - Prevention (how to avoid this exception in the future)
+   - Related Cases (link to L6)
+3. Unknown Exception Protocol (what to do when encountering a new exception)
+
+### Writing Tips
+
+- Each exception maps to a specific .E step in L1.4.
+- Severity MUST be explicit. Use P0 (blocking, requires immediate escalation) / P1 (significant, degrades SLA) / P2 (minor, documented workaround).
+- Include real examples from L6 cases-library if available.
+- "Unknown Exception Protocol" is mandatory — it's the meta-exception handler.
+
+### Tone Sample
+
+> **EX-003 — Payment Gateway Timeout (P1)**
+> **Trigger**: Stripe returns HTTP 504 or request hangs > 30 seconds.
+> **Severity**: P1 — degrades SLA but does not block process.
+> **Immediate Action**: Retry once after 60 seconds. Do NOT retry more than twice.
+> **Resolution Path**:
+> 1. If retry succeeds → continue to S4.
+> 2. If retry fails → record transaction ID, mark ticket as `#payment-pending`, notify Finance via Slack #refund-ops.
+> 3. Finance manually processes within 2 business hours.
+> **Escalation**: If Finance does not respond within 2 hours, escalate to Finance Lead.
+> **Prevention**: Monitor Stripe status page (status.stripe.com) before bulk refund operations.
+
+### Anti-Example (DO NOT DO THIS)
+
+> 支付失败就等一会儿再试。
+
+**Why it's bad**: No severity, no retry policy, no escalation path, no resolution timeline, no prevention.
+
+---
+
+## Recipe 7: Training Module
+
+**Primary Role**: Trainee
+**When to generate**: If Trainee role is involved or Acceptance Test is planned
+
+### Recommended Structure
+1. Learning Objectives (what will you be able to do after this?)
+2. Conceptual Overview (the mental model — WHY this process exists)
+3. Step-by-Step Walkthrough (numbered, with screenshots)
+4. Practice Scenarios (2-3 scenarios with expected outcomes)
+5. Self-Test (5-8 questions with answers)
+6. Common Mistakes (top 3-5 mistakes new people make)
+
+### Writing Tips
+- Start with WHY, not WHAT. Trainees need the mental model first.
+- Use real scenarios, not abstract descriptions: "A parent calls saying their child is bored" not "User dissatisfaction scenario"
+- Self-test questions must be specific: "What do you do if the user is in honeymoon period?" not "Explain the process"
+- Include the "aha moment" — the one thing that makes everything click
+
+### Tone Sample
+> **Why this process exists**: Every refund request is a chance to keep a student learning. Our goal is to understand the real reason behind the refund request and solve it — not just process it. Think of yourself as a problem-solver first, refund processor second.
+
+### Anti-Example
+> 退款流程很简单，就是用户要退款就给他退。记住步骤就行。
+> **Why it's bad**: No mental model, no purpose, reduces complex judgment work to "just follow steps"
+
+---
+
+## Recipe 8: Quick Reference Card
+
+**Primary Role**: Operator
+**When to generate**: If Operator role is involved
+
+### Recommended Structure
+1. Trigger Checklist (top 3 things to verify immediately)
+2. Decision Tree (one-page visual: if X → Y)
+3. Key Contacts (who to escalate to, with contact method)
+4. Common Numbers (SLA numbers, thresholds, refund formulas)
+5. Anti-Patterns (top 3 things NOT to do)
+
+### Writing Tips
+- Must fit on ONE printed page. If it overflows, cut words.
+- Use bullet points, not paragraphs.
+- Every item must be actionable: "Check purchase date ≤ 7 days" not "Verify eligibility"
+- Include exact tool paths: "Myspace → Student → Orders → Refund"
+
+### Tone Sample
+```
+REFUND QUICK CARD
+─────────────────
+TRIGGER: Parent requests refund → Create ticket SAME DAY
+
+DECISION TREE:
+  Purchase ≤ 7 days + Progress < 25%? → Full refund eligible
+  Otherwise → Team Lead manual review
+
+KEY SLA:
+  First contact ≤ 24h | Follow-up ≤ 48h | Refund ops ≤ 2h after fail
+
+DO NOT:
+  ❌ Promise refund timeline
+  ❌ Calculate refund amount before retention attempt
+  ❌ Push to another person — YOU own the first contact
+```
+
+### Anti-Example
+> 退款流程参考 SOP 文档。
+> **Why it's bad**: Not a quick reference — just a pointer to another document. No actionable content.
+
+---
+
+## Recipe 9: Compliance Memo
+
+**Primary Role**: Auditor, Compliance
+**When to generate**: If Auditor role is involved or invariants contain regulatory requirements
+
+### Recommended Structure
+1. Process → Regulation Mapping (table: step → regulation clause → evidence required)
+2. Evidence Checkpoints (at which step is audit trail generated?)
+3. Exception Handling (what happens when compliance is breached?)
+4. Audit Sampling Strategy (what % of cases to audit, by priority)
+5. Historical Compliance Data (if available)
+
+### Writing Tips
+- Map EVERY invariant to a specific step. No orphan red lines.
+- For each checkpoint, specify: WHAT evidence, WHERE stored, HOW LONG retained.
+- Include the consequence of non-compliance explicitly: "AP01 violation → QA penalty, documented in quarterly review"
+- If a step has NO evidence trail, flag it: `[COMPLIANCE GAP — no audit trail for step SX]`
+
+### Tone Sample
+> **Step S3 — Refund Processing**
+> - Regulation: Internal QA Policy §AP07 (refund amount confirmation)
+> - Evidence Required: Refund confirmation message to user with amount breakdown
+> - Storage: Myspace ticket log, retained 2 years
+> - Audit: 100% of P0 cases, 10% random sample of P1/P2
+
+### Anti-Example
+> 所有步骤都要合规。
+> **Why it's bad**: No mapping, no evidence specification, no sampling strategy, not auditable.
+
+---
+
+## Recipe 10: Stakeholder One-Pager
+
+**Primary Role**: Executive Sponsor, Customer
+**When to generate**: If Executive or Customer role is involved
+
+### Recommended Structure
+1. Process Name & One-Liner
+2. Scope (what it covers, what it doesn't)
+3. Key SLA Commitments (top 3 numbers)
+4. Roles at a Glance (who does what, max 5 roles)
+5. Process Flow (simplified 5-7 step diagram)
+6. Key Risks & Mitigations (top 3)
+7. Contact (who to reach for questions)
+
+### Writing Tips
+- One page. Strict limit. If it doesn't fit, cut less important sections.
+- Numbers first: executives and customers care about time and cost.
+- Use simple language: "You'll get your refund within 7 days" not "SLA resolution time ≤ 7 business days"
+- Risk section: what could go wrong AND what we do about it
+
+### Tone Sample
+> **Customer Refund Process — At a Glance**
+> 
+> **What happens when you request a refund**: We'll first try to understand your concern and see if we can help. If you still want to proceed, your refund will be processed within 3-7 business days.
+>
+> **Key Numbers**: First response ≤ 24h | Refund to account ≤ 7 business days | 95% of refunds processed without escalation
+
+### Anti-Example
+> 本流程覆盖退款全链路，涉及8个角色14个步骤，详见 process-brief.md L1.4。
+> **Why it's bad**: Too internal, too detailed, no customer-facing language, just a pointer.
+
+---
+
+## Recipe 11: Metrics Dashboard Spec
+
+**Primary Role**: Owner, Engineer
+**When to generate**: Always (at minimum: list key metrics with thresholds)
+
+### Recommended Structure
+1. KPI Summary (top 3-5 metrics with targets)
+2. Metric Definitions (name, formula, data source, update frequency)
+3. Thresholds & Alerts (what triggers a warning? what triggers an escalation?)
+4. Dashboard Layout (suggested widgets: funnel, timeline, SLA gauge)
+5. Data Sources (exact table/API endpoint for each metric)
+
+### Writing Tips
+- Every metric must have: definition, target, data source, update frequency
+- Thresholds must be actionable: "好友率 < 90% → auto-push WeChat template message" not "好友率低时提醒"
+- Include the "so what": why does this metric matter?
+- If a metric's data source is unknown, mark `[DATA GAP — source TBD]`
+
+### Tone Sample
+```yaml
+metrics_dashboard:
+  - name: "开课前好友添加率"
+    target: "≥ 90%"
+    formula: "已添加好友学员数 / 班期总学员数"
+    data_source: "BI 看板 — 好友率表 (daily refresh)"
+    threshold_warn: "< 90%"
+    threshold_critical: "< 80%"
+    action_on_warn: "导出明细 → 提醒导购班主任"
+    action_on_critical: "教务每天推送公众号模板消息"
+```
+
+### Anti-Example
+> 关注退款率和好友率。
+> **Why it's bad**: No targets, no thresholds, no data sources, no actions — not actionable.
+
+---
+
+## Recipe 12: Change Announcement
+
+**Primary Role**: All Roles
+**When to generate**: When process changes (version bump)
+
+### Recommended Structure
+1. Change Summary (one paragraph: what changed, why, effective date)
+2. What's New (bullet list of changes)
+3. What's Removed (deprecated steps/rules)
+4. Impact by Role (how this change affects each role differently)
+5. Action Required (does anyone need to do anything?)
+6. Questions Contact
+
+### Writing Tips
+- Lead with impact, not detail: "Starting Monday, refund approvals now go to Finance instead of Team Lead"
+- Per-role breakdown is critical — operators and auditors care about different things
+- Include the "before vs after" comparison for changed steps
+- If no action is required, say so explicitly: "No action needed — process change is backend only"
+
+### Tone Sample
+> **[2026-06-01] Refund Process Update — Effective Immediately**
+>
+> **What changed**: Refund amount calculation now uses per-lesson amortization instead of monthly. This means refunds for partial months are now prorated by lesson, not by calendar month.
+>
+> **Impact by Role**:
+> - **Operators**: New refund formula in SOP Step S3. Old formula no longer valid.
+> - **Auditors**: AP08 (retain unlocked lessons) now applies to per-lesson calculation.
+> - **Finance**: No change — approval workflow unchanged.
+
+### Anti-Example
+> 退款流程已更新，请查看最新版 SOP。
+> **Why it's bad**: No summary, no impact, no per-role breakdown, no action items.
+
+---
+
+## Recipe 13: Onboarding Checklist
+
+**Primary Role**: Trainee, Buddy
+**When to generate**: If Trainee role is involved
+
+### Recommended Structure
+1. Prerequisites (system access, permissions, tools to install)
+2. Knowledge Checklist (concepts to understand before first execution)
+3. Shadow Checklist (steps to observe someone else doing)
+4. Solo Checklist (steps to do yourself, with buddy review)
+5. Sign-off (buddy confirms each section complete)
+
+### Writing Tips
+- Each item must be verifiable: "Can you explain what honeymoon period means?" not "Understand honeymoon period"
+- Include estimated time per section
+- Shadow before solo — never skip
+- The sign-off column makes it a contract, not a suggestion
+
+### Tone Sample
+```
+ONBOARDING CHECKLIST — Customer Refund Process
+──────────────────────────────────────────────
+☐ Prerequisites (Day 1, 1 hour)
+  ☐ Myspace backend access granted
+  ☐ Added to #refund-ops Slack channel
+  ☐ Read SOP Sections 1-3
+
+☐ Shadow (Day 2, 2 hours)
+  ☐ Watch buddy handle 1 refund call
+  ☐ Watch buddy create 1 refund ticket
+  ☐ Debrief: what surprised you?
+
+☐ Solo with Review (Day 3-5, 3 cases)
+  ☐ Handle case #1 — buddy reviews before submit
+  ☐ Handle case #2 — buddy reviews after submit
+  ☐ Handle case #3 — independent, spot-check only
+
+☐ Sign-off: ________ (Buddy)  Date: ________
+```
+
+### Anti-Example
+> 新人跟师傅学一周就会了。
+> **Why it's bad**: No verifiable items, no structure, no sign-off, assumes buddy availability.
+
+---
+
+## Recipe 14: Post-Mortem Template
+
+**Primary Role**: Owner, Engineer
+**When to generate**: Always (template ready for when incidents occur)
+
+### Recommended Structure
+1. Incident Summary (what happened, when, duration, severity)
+2. Timeline (minute-by-minute key events)
+3. Root Cause Analysis (5 Whys or similar)
+4. Impact Assessment (users affected, revenue impact, SLA breach)
+5. What Went Well (things that worked during response)
+6. What Went Wrong (gaps in process, tooling, or communication)
+7. Action Items (specific, assigned, with deadline)
+8. Process Changes (what changed in the Skill as a result — link to CHANGELOG)
+
+### Writing Tips
+- Blameless. Focus on process gaps, not people.
+- Timeline must be specific: "14:23 — Stripe returned 504" not "afternoon — payment failed"
+- Every action item must have: owner + deadline. No "TBD" owners.
+- Link back to the process Skill: "Step S3 now includes payment gateway status check before bulk refunds"
+
+### Tone Sample
+> **Incident: Refund Processing Delay — 2026-04-15**
+> **Severity**: P1 | **Duration**: 3 hours | **Affected**: 12 refund requests
+>
+> **Root Cause**: Stripe API outage (status.stripe.com confirmed). Our process had no pre-check step — operators retried until timeout, creating a backlog.
+>
+> **What Changed**: Added pre-refund Stripe status check to SOP Step S3. Exception Playbook EX-003 updated with retry policy (max 2 retries, then manual).
+
+### Anti-Example
+> 支付网关挂了，财务手动处理的，已解决。
+> **Why it's bad**: No timeline, no root cause, no action items, no process change — incident will repeat.

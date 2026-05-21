@@ -1,0 +1,90 @@
+---
+name: process-{{PROCESS_NAME}}
+description: Standardized process Skill for {{PROCESS_PURPOSE_ONE_LINER}}. Covers end-to-end execution, training, auditing, and improvement. Triggers: {{PROCESS_NAME}} process / {{PROCESS_NAME}} workflow / how to {{PROCESS_NAME}} / {{PROCESS_KEY_VERBS}}.
+agent_created: true
+generated_by_meta_skill_version: {{META_SKILL_VERSION}}
+---
+
+# {{PROCESS_NAME}}
+
+## Intent Detection — What Can I Help With
+
+When users ask questions, route them to the right content:
+
+{{INTENT_ROUTING_TABLE}}
+
+## Process Overview
+
+{{HAPPY_PATH_MERMAID}}
+
+## Who Are You? Role-Based Navigation
+
+{{ROLE_NAVIGATION_TABLE}}
+
+## Happy Path Quick Start
+
+The main process path for first-time execution. Full steps and exception paths in `references/process-brief.md`.
+
+⛔ **Pre-Execution Checklist** — before starting, confirm:
+{{PRE_EXECUTION_CHECKLIST}}
+
+{{HAPPY_PATH_STEPS}}
+
+## Exception Quick Reference
+
+Hit a problem? Start here. Full exception handling in `references/process-brief.md` .E/.A branches.
+
+{{EXCEPTION_QUICK_REF}}
+
+## FAQ Quick Reference
+
+{{FAQ_TABLE}}
+
+## Invariants
+
+These constraints MUST hold regardless of who executes this process:
+
+{{INVARIANTS_TABLE}}
+
+## References
+
+| File | Content | When to Read |
+|---|---|---|
+| `references/process-brief.md` | Complete process definition (steps, roles, decisions, SLA, scope) | Understand the full process |
+| `references/foundational-logic.md` | Purpose, tradeoffs, design principles, source methodology | Understand WHY |
+| `references/output-recipes.md` | All generated output formats (SOP, Runbook, RACIO, etc.) | Generate specific outputs |
+| `references/artifacts-registry.md` | Forms, templates, checklists used in this process | Find a specific artifact |
+| `references/visualization-spec.md` | Diagram conventions (Mermaid) | Render or modify process maps |
+| `references/cases-library.md` | Real cases, incidents, lessons learned | Learn from experience |
+
+## Recent Changes
+
+{{RECENT_CHANGES}}
+
+## Version History
+
+See `CHANGELOG.md` for full history. Current version: {{PROCESS_VERSION}}.
+
+{% if HAS_TTL_FIELDS %}
+**TTL Note**: Fields marked with `@valid_until=YYYY-Q#` may expire. Run `process-architect ttl-check --skill ./` quarterly. Expired fields are listed in `references/process-brief.md` TTL comments.
+{% endif %}
+
+## Lifecycle Maintenance
+
+This Skill contains TTL markers (`@valid_until=YYYY-Q#`) on volatile fields:
+- SLA numbers (L1.8)
+- Tool/system URLs (L1.4, L1.3)
+- Role contacts (L1.3)
+- Volume estimates (L1.8)
+
+Maintenance commands:
+```bash
+# Quarterly TTL check
+process-architect ttl-check --skill ./
+
+# Version bump
+process-architect bump --skill ./ --type minor "Describe the change"
+
+# Impact assessment before changes
+process-architect diff-plan --skill ./ --since {{PREV_VERSION}}
+```

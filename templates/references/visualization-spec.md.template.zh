@@ -1,0 +1,42 @@
+# 可视化规格 — {{PROCESS_NAME}}
+
+> **L5 — 流程可视化**：本流程的图表绘制约定。
+> 必须引用 L1.4（步骤序列）和 L1.7（RACIO 矩阵）以支持自动渲染。
+
+---
+
+## 图式类型
+
+- **主要图式**：{{PRIMARY_DIAGRAM_TYPE}}（泳道图 / 流程图 / 价值流图）
+- **视觉关键词**：{{VIBE_KEYWORDS}}（如"操作员优先"、"合规强调"）
+
+## 颜色语义
+
+| 元素 | 颜色 | 色值 | 适用 |
+|---|---|---|---|
+| 人工步骤 | {{COLOR_MANUAL}} | {{HEX_MANUAL}} | 人工执行的步骤 |
+| 自动化步骤 | {{COLOR_AUTO}} | {{HEX_AUTO}} | 系统/API 执行的步骤 |
+| 决策点 | {{COLOR_DECISION}} | {{HEX_DECISION}} | 菱形/网关节点 |
+| 异常路径 | {{COLOR_EXCEPTION}} | {{HEX_EXCEPTION}} | .E 步骤、错误流 |
+| 交接 | {{COLOR_HANDOFF}} | {{HEX_HANDOFF}} | 跨角色或跨流程转移 |
+| 成功终态 | {{COLOR_SUCCESS}} | {{HEX_SUCCESS}} | 正常结束状态 |
+
+## 命名规范
+
+- **节点标签格式**：`<b>{{STEP_ID}}</b><br/>{{STEP_NAME}}`
+- **节点最大字符数**：{{MAX_CHARS}}（推荐 30-40）
+- **步骤名前缀**：{{STEP_NAME_PREFIX}}（动词 / 名词 / ID）
+
+## 步骤→节点映射
+
+| 步骤 ID (L1.4) | 节点标签 | 颜色 | 泳道 |
+|---|---|---|---|
+{% for step in STEPS %}
+| {{step.id}} | `<b>{{step.id}}</b><br/>{{step.name}}` | {{step.color}} | {{step.swimlane}} |
+{% endfor %}
+
+## 视觉禁忌
+
+{% for nogo in VISUAL_NO_GOS %}
+- ❌ {{nogo}}
+{% endfor %}
